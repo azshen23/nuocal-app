@@ -9,6 +9,7 @@ import {
   Alert,
 } from "react-native";
 import FilterButtons from "../../components/filterButtons";
+import { TransitionPresets } from "@react-navigation/stack";
 import React from "react";
 import { create } from "twrnc";
 const tw = create(require(`../../tailwind.config.js`));
@@ -32,10 +33,11 @@ export default function Post({ navigation }: any) {
         fontWeight: "600",
         fontSize: 24,
       },
-      presentation: "modal",
+      presentation: "fullScreenModal",
       headerLeft: () => {
         return null;
       },
+      ...TransitionPresets.ModalSlideFromBottomIOS,
     });
   });
   //cancel the post

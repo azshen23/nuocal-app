@@ -13,6 +13,7 @@ module.exports = {
       header: "#425D78",
       text: "#46454A",
       filterBorder: "#AFAB9E",
+      notblack: "#707070",
     },
     extend: {
       boxShadow: {
