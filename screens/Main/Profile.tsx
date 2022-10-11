@@ -1,4 +1,5 @@
 import { View, Text, SafeAreaView, Pressable } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { create } from "twrnc";
 const tw = create(require(`../../tailwind.config.js`));
@@ -17,6 +18,13 @@ const Profile = ({ navigation }: any) => {
         fontWeight: "600",
         fontSize: 24,
       },
+      headerRight: () => (
+        <View style={{ marginRight: 20 }}>
+          <Pressable>
+            <MaterialIcons name="logout" size={30} color="#707070" />
+          </Pressable>
+        </View>
+      ),
     });
   });
   return (

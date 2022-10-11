@@ -4,7 +4,12 @@ import Post from "../screens/Main/Post";
 import { View } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
+import Entry from "../screens/Auth/Entry";
+import CreateAccount from "../screens/Auth/CreateAccount";
+import Login from "../screens/Auth/Login";
+
 const RootStack = createStackNavigator();
+const AuthStack = createStackNavigator();
 const RootNavigator = () => {
   return (
     <RootStack.Navigator
@@ -24,10 +29,45 @@ const RootNavigator = () => {
   );
 };
 
-export default function RootNavigation() {
+const AuthNavigator = () => {
+  const globalScreenOption = {
+    title: "",
+    headerTransparent: true,
+  };
+  const startScreenOption = {
+    headerShown: false,
+  };
   return (
+    <AuthStack.Navigator>
+      <AuthStack.Screen
+        options={startScreenOption}
+        name="EntryScreen"
+        component={Entry}
+      />
+      <AuthStack.Screen
+        options={globalScreenOption}
+        name="LoginScreen"
+        component={Login}
+      />
+      <AuthStack.Screen
+        options={globalScreenOption}
+        name="CreateAccountScreen"
+        component={CreateAccount}
+      />
+    </AuthStack.Navigator>
+  );
+};
+
+export default function RootNavigation() {
+  const isAuth = false;
+
+  return isAuth ? (
     <NavigationContainer>
       <RootNavigator />
+    </NavigationContainer>
+  ) : (
+    <NavigationContainer>
+      <AuthNavigator />
     </NavigationContainer>
   );
 }
