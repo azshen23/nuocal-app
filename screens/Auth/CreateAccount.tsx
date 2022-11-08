@@ -10,6 +10,7 @@ import {
   Image,
   TextInput,
   StyleSheet,
+  Alert,
 } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -56,11 +57,15 @@ const CreateAccount = ({ navigation }: any) => {
     return axios
       .post("https://auth.nuocal.com/user/createAccount", loginInfo)
       .then((response) => {
-        console.log(response.data);
+        if (response.data.result.data.status == "FAILED") {
+          Alert.alert(response.data.result.data.message, undefined, [
+            { text: "OK" },
+          ]);
+        } else if (response.data.result.data.status == "PENDING") {
+          navigation.navigate("EmailVerification");
+        }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   });
 
   const createAccount = async () => {
@@ -71,6 +76,8 @@ const CreateAccount = ({ navigation }: any) => {
         email: email,
         password: password,
       });
+    } else {
+      Alert.alert("Passwords do not match", undefined, [{ text: "OK" }]);
     }
   };
 

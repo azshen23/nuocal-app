@@ -7,6 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Entry from "../screens/Auth/Entry";
 import CreateAccount from "../screens/Auth/CreateAccount";
 import Login from "../screens/Auth/Login";
+import EmailVerification from "../screens/Auth/EmailVerification";
 
 const RootStack = createStackNavigator();
 const AuthStack = createStackNavigator();
@@ -53,6 +54,11 @@ const AuthNavigator = () => {
         options={globalScreenOption}
         name="CreateAccountScreen"
         component={CreateAccount}
+      />
+      <AuthStack.Screen
+        options={globalScreenOption}
+        name="EmailVerification"
+        component={EmailVerification}
       />
     </AuthStack.Navigator>
   );
