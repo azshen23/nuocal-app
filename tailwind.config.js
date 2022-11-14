@@ -14,6 +14,9 @@ module.exports = {
       text: "#46454A",
       filterBorder: "#AFAB9E",
       notblack: "#707070",
+      codeInputBg: "#D5D6D7",
+      codeInputBorder: "#AAB3BC",
+      black: "#000",
     },
     extend: {
       boxShadow: {

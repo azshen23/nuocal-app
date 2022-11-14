@@ -62,7 +62,9 @@ const CreateAccount = ({ navigation }: any) => {
             { text: "OK" },
           ]);
         } else if (response.data.result.data.status == "PENDING") {
-          navigation.navigate("EmailVerification");
+          navigation.navigate("EmailVerification", {
+            userEmail: email,
+          });
         }
       })
       .catch((error) => {});
