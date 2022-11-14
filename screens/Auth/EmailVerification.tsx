@@ -23,6 +23,12 @@ interface VerificationInfo {
 }
 
 const EmailVerification = ({ route, navigation }: any) => {
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: null,
+    });
+  });
+
   const { userEmail } = route.params;
   const [focus1, setFocus1] = React.useState(false);
   const [focus2, setFocus2] = React.useState(false);
@@ -47,12 +53,12 @@ const EmailVerification = ({ route, navigation }: any) => {
       return axios
         .post("https://auth.nuocal.com/user/verifyEmail", verificationInfo)
         .then((response) => {
-          if (response.data.result.data.status == "FAILED") {
+          if (response.data.result.data.status == "SUCCESS") {
+            console.log("success");
+          } else {
             Alert.alert(response.data.result.data.message, undefined, [
               { text: "OK" },
             ]);
-          } else if (response.data.result.data.status == "SUCCESS") {
-            console.log("success");
           }
         })
         .catch((error) => {
