@@ -7,7 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Entry from "../screens/Auth/Entry";
 import CreateAccount from "../screens/Auth/CreateAccount";
 import Login from "../screens/Auth/Login";
-import EmailVerification from "../screens/Auth/EmailVerification";
+import { SignedIn, SignedOut } from "@clerk/clerk-expo";
 
 const RootStack = createStackNavigator();
 const AuthStack = createStackNavigator();
@@ -55,25 +55,19 @@ const AuthNavigator = () => {
         name="CreateAccountScreen"
         component={CreateAccount}
       />
-      <AuthStack.Screen
-        options={globalScreenOption}
-        name="EmailVerification"
-        component={EmailVerification}
-      />
     </AuthStack.Navigator>
   );
 };
 
 export default function RootNavigation() {
-  const isAuth = false;
-
-  return isAuth ? (
+  return (
     <NavigationContainer>
-      <RootNavigator />
-    </NavigationContainer>
-  ) : (
-    <NavigationContainer>
-      <AuthNavigator />
+      <SignedIn>
+        <RootNavigator />
+      </SignedIn>
+      <SignedOut>
+        <AuthNavigator />
+      </SignedOut>
     </NavigationContainer>
   );
 }
