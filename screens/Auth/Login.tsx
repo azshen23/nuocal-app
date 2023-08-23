@@ -16,6 +16,7 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { create } from "twrnc";
 import { useMutation } from "@tanstack/react-query";
+import { useSignIn } from "@clerk/clerk-expo";
 import * as SecureStore from "expo-secure-store";
 const tw = create(require(`../../tailwind.config.js`));
 
@@ -25,6 +26,7 @@ interface LoginInfo {
 }
 
 const Login = ({ navigation }: any) => {
+  const { signIn, setActive, isLoaded } = useSignIn();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -53,10 +55,21 @@ const Login = ({ navigation }: any) => {
   );
 
   const login = async () => {
-    mutation.mutate({
-      email: email,
-      password: password,
-    });
+    if (!isLoaded) {
+      return;
+    }
+
+    try {
+      const completeSignIn = await signIn.create({
+        identifier: email,
+        password,
+      });
+      // This is an important step,
+      // This indicates the user is signed in
+      await setActive({ session: completeSignIn.createdSessionId });
+    } catch (err: any) {
+      console.log(err);
+    }
   };
 
   const focusOnPassword = () => {
@@ -76,13 +89,13 @@ const Login = ({ navigation }: any) => {
           onPress={Keyboard.dismiss}
         >
           <View style={tw.style("flex-1 justify-center items-center")}>
-            <View style={tw.style("flex-0.5 -mb-10")}>
+            <View style={tw.style("flex-0.5")}>
               <Image
                 style={styles.logo}
                 source={require("../../assets/nuocal-logo-1.png")}
               />
             </View>
-            <View style={tw.style("w-82 items-center")}>
+            <View style={tw.style("w-4/5 items-center")}>
               <TextInput
                 ref={refEmailInput}
                 onChangeText={setEmail}
@@ -121,7 +134,7 @@ const Login = ({ navigation }: any) => {
                 <Pressable
                   onPress={() => login()}
                   style={tw.style(
-                    "w-full h-16 pl-5 bg-header rounded-2xl text-iconinactive mb-5 justify-center items-center"
+                    "w-full pb-4 pt-4 bg-header rounded-2xl text-iconinactive mb-5 justify-center items-center"
                   )}
                 >
                   <Text style={tw.style("text-xl text-white font-medium")}>

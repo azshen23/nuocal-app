@@ -21,7 +21,6 @@ import {
 } from "react-native-confirmation-code-field";
 import { Ionicons } from "@expo/vector-icons";
 import { create } from "twrnc";
-import { useMutation } from "@tanstack/react-query";
 import { useSignUp } from "@clerk/clerk-expo";
 const tw = create(require(`../../tailwind.config.js`));
 
@@ -40,7 +39,6 @@ const CreateAccount = ({ navigation }: any) => {
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
   const [pendingVerification, setPendingVerification] = useState(false);
-  const [code, setCode] = useState("");
   const [value, setValue] = useState("");
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -74,19 +72,26 @@ const CreateAccount = ({ navigation }: any) => {
       return;
     }
     try {
-      await signUp.create({
-        username,
-        emailAddress: email,
-        password,
-      });
+      if (password !== confPassword) {
+        Alert.alert("Passwords do not match", undefined, [{ text: "OK" }]);
+      } else {
+        await signUp.create({
+          username,
+          emailAddress: email,
+          password,
+        });
 
-      // send the email.
-      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+        // send the email.
+        await signUp.prepareEmailAddressVerification({
+          strategy: "email_code",
+        });
 
-      // change the UI to our pending section.
-      setPendingVerification(true);
+        // change the UI to our pending section.
+        setPendingVerification(true);
+      }
     } catch (err: any) {
       console.error(JSON.stringify(err, null, 2));
+      Alert.alert(err.errors[0].message, undefined, [{ text: "OK" }]);
     }
   };
 

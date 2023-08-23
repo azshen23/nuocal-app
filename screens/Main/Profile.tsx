@@ -1,10 +1,13 @@
-import { View, Text, SafeAreaView, Pressable } from "react-native";
+import { View, Text, SafeAreaView, Pressable, Button } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useAuth } from "@clerk/clerk-expo";
+import * as SecureStore from "expo-secure-store";
 import React from "react";
 import { create } from "twrnc";
 const tw = create(require(`../../tailwind.config.js`));
 
 const Profile = ({ navigation }: any) => {
+  const { isLoaded, signOut } = useAuth();
   React.useLayoutEffect(() => {
     navigation.setOptions({
       title: "sereba",
@@ -27,6 +30,7 @@ const Profile = ({ navigation }: any) => {
       ),
     });
   });
+
   return (
     <SafeAreaView style={tw.style("flex-1 bg-augustmoon")}>
       <View style={tw.style("items-center ml-26 mr-26")}>
@@ -61,6 +65,12 @@ const Profile = ({ navigation }: any) => {
             </Text>
           </View>
         </Pressable>
+        <Button
+          title="Sign Out"
+          onPress={() => {
+            signOut();
+          }}
+        />
       </View>
     </SafeAreaView>
   );
