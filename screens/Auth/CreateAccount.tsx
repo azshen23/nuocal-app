@@ -21,7 +21,6 @@ import {
 } from "react-native-confirmation-code-field";
 import { Ionicons } from "@expo/vector-icons";
 import { create } from "twrnc";
-import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useSignUp } from "@clerk/clerk-expo";
 const tw = create(require(`../../tailwind.config.js`));

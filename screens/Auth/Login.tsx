@@ -15,7 +15,6 @@ import {
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { create } from "twrnc";
-import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import * as SecureStore from "expo-secure-store";
 const tw = create(require(`../../tailwind.config.js`));
@@ -49,20 +48,9 @@ const Login = ({ navigation }: any) => {
     });
   });
 
-  const mutation = useMutation(async (loginInfo: LoginInfo): Promise<any> => {
-    return axios
-      .post("https://auth.nuocal.com/user/login", loginInfo)
-      .then((response) => {
-        if (response.data.result.data.status == "SUCCESS") {
-          console.log(response.data.result.data);
-        } else {
-          Alert.alert(response.data.result.data.message, undefined, [
-            { text: "OK" },
-          ]);
-        }
-      })
-      .catch((error) => {});
-  });
+  const mutation = useMutation(
+    async (loginInfo: LoginInfo): Promise<any> => {}
+  );
 
   const login = async () => {
     mutation.mutate({
